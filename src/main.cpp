@@ -4,6 +4,7 @@
 #include "TAlib/TAlib.hpp"
 #include "Util/EnvReader.hpp"
 #include "Util/TimeConverter.hpp"
+#include "Util/Logger.hpp"
 
 int bybit_tickers();
 int database_test();
@@ -11,6 +12,9 @@ void test_talib();
 void API_test();
 
 int main() {
+    Logger logger("server_log.log");
+    logger.log(LogLevel::DEBUG, "Server started.");
+
     API_test();
     // database_test();
     // test_talib();
