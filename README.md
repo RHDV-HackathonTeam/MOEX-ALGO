@@ -47,6 +47,7 @@ or
 6. Прописать команду ``` nmake ```
 7. В терминале PyCharm прописать команду ``` pip install ta-lib ``` (для проверки)
 
+
 5. Start docker with PostgreSQL Database
 ```.sh
 # clear docker cache

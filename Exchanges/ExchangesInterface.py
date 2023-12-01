@@ -13,7 +13,6 @@ import pandas as pd
 
 from abc import abstractclassmethod
 
-
 class ExchangesInterface(object):
     apiKeys: list[str] | None
     __metaclass__ = ABCMeta

@@ -7,9 +7,10 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
       - custom
-
     ports:
       - '6379:6379'
+    env_file:
+      - .env 
 
   redisinsight:
     image: redislabs/redisinsight:latest
@@ -17,15 +18,15 @@ services:
       - '8001:8001'
     networks:
       - custom
+    env_file:
+      - .env 
       
   db:
     container_name: pgdb
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: $PASSWORD
-      POSTGRES_DB: dev
+    env_file:
+      - .env  
     ports:
       - '5432:5432'
 
@@ -34,10 +35,12 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: root@root.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - '5050:80'
+    env_file:
+      - .env  
 
 networks:
   custom:
