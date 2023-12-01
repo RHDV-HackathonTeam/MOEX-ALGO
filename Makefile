@@ -1,47 +1,31 @@
-CC = g++
-FLAGS = -Wall -Werror -Wextra
-BUILD_FLAGS = -L$(VCPKG_DIR)/lib -lcpprest -lboost_system -lboost_thread -lboost_chrono -lboost_random -lcurl -ljsoncpp -lpq -lta_lib -lssl -lcrypto
-SRCDIR = src
-BUILDDIR = build
-INCLUDE_DIR = include
-TARGET = $(BUILDDIR)/a.out
-VCPKG_DIR = $(INCLUDE_DIR)/vcpkg/installed/x64-linux
+up:
+	docker compose -f docker-compose-local.yaml up -d
 
-SRCEXT = cpp
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS = -c
+down:
+	docker compose -f docker-compose-local.yaml down && docker network prune --force
 
-all: build
-
-build: $(TARGET)
-
-$(TARGET): $(OBJECTS)
-	@mkdir -p $(BUILDDIR)
-	$(CC) $^ $(BUILD_FLAGS) -o $(TARGET)
-
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(dir $@)
-	$(CC) $(FLAGS) $(CFLAGS) -o $@ $< -I$(VCPKG_DIR)/include
-
-.PHONY: clean
-
+# Clean cache
 clean:
-	@rm -rf $(BUILDDIR)
+	find . -name __pycache__ -type d -print0|xargs -0 rm -r --
+	rm -rf .idea/
 
-clang:
-	clang-format -n $(shell find $(SRCDIR) -name "*.$(SRCEXT)") $(shell find $(SRCDIR) -name "*.hpp")
-	clang-format -i $(shell find $(SRCDIR) -name "*.$(SRCEXT)") $(shell find $(SRCDIR) -name "*.hpp")
+test:
+	pytest app/TaLib/Test/MomentumIndicatorsTest.py
 
-cppcheck:
-	cppcheck --enable=all --suppress=missingIncludeSystem $(SRCDIR)
+alembic_init:
+	alembic init migrations
 
-precommit:
-	pre-commit run --all-files
+alembic_rev:
+	alembic revision --autogenerate -m 'init'
 
-docker_clean:
-	sudo docker stop $$(sudo docker ps -a -q) || true
-	sudo docker rm $$(sudo docker ps -a -q) || true
+alembic_upgrade:
+	alembic upgrade heads
 
-database_up:
-	docker-compose -f database.yaml up
+server_up:
+	uvicorn app.main:app
+
+pre_commit:
+	pre-commit run flake8 --all-files
+
+pylint:
+	pylint $(git ls-files '*.py')

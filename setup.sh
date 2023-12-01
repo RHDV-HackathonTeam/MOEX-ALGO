@@ -1,62 +1,57 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#encoding=utf8
 
-DISTRO=""
+function echo_block() {
+    echo "----------------------------"
+    echo $1
+    echo "----------------------------"
+}
 
-if [ -f "/etc/os-release" ]; then
-    DISTRO=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-fi
+function check_installed_pip() {
+   ${PYTHON} -m pip > /dev/null
+   if [ $? -ne 0 ]; then
+        echo_block "Installing Pip for ${PYTHON}"
+        curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+        ${PYTHON} get-pip.py
+        rm get-pip.py
+   fi
+}
 
-case "$DISTRO" in arch|manjaro|debian|ubuntu)
+function check_installed_python() {
+    if [ -n "${VIRTUAL_ENV}" ]; then
+        echo "Please deactivate your virtual environment before running setup.sh."
+        echo "You can do this by running 'deactivate'."
+        exit 2
+    fi
 
-        python3 -m venv venv
-        source venv/bin/activate
-
-        if [ "$DISTRO" = "arch" ] || [ "$DISTRO" = "manjaro" ] || [ "$DISTRO" = "debian" ]; then
-            pip install pre-commit
+    for v in 10 9 8
+    do
+        PYTHON="python3.${v}"
+        which $PYTHON
+        if [ $? -eq 0 ]; then
+            echo "using ${PYTHON}"
+            check_installed_pip
+            return
         fi
+    done
 
-        if [ "$DISTRO" = "ubuntu" ]; then
-            pip3 install pre-commit
-        fi
+    echo "No usable python found. Please make sure to have python3.8 or newer installed."
+    exit 1
+}
 
-        # pre-commit install
+function install_talib(){
+  if [ -f /home/donqhomo/Desktop/Crypto-TA/ta-lib-0.4.0-src ]; then
+        echo "ta-lib already installed, skipping"
+        return
+  fi
 
+  cd build_helpers && ./install_ta-lib.sh
 
-        echo "Arch Linux | vcpkg"
-        INCLUDE_DIR="include"
-        VCPKG_DIR="$INCLUDE_DIR/vcpkg"
-        TA_LIB_DIR="$INCLUDE_DIR/ta-lib"
+  if [ $? -ne 0 ]; then
+      echo "Quitting. Please fix the above error before continuing."
+      cd ..
+      exit 1
+  fi;
 
-        mkdir -p "$INCLUDE_DIR"
-
-        if [ ! -d "$VCPKG_DIR" ]; then
-            echo "Клонируем vcpkg..."
-            git clone https://github.com/microsoft/vcpkg.git "$VCPKG_DIR"
-            cd "$VCPKG_DIR" || exit 1
-            ./bootstrap-vcpkg.sh
-            ./vcpkg integrate install
-        else
-            echo "vcpkg уже скачан"
-            cd "$VCPKG_DIR" || exit 1
-        fi
-
-        ./vcpkg install cpprestsdk
-        ./vcpkg install nlohmann-json
-
-        if [ ! -d "$TA_LIB_DIR" ]; then
-            echo "Клонируем ta-lib..."
-            git clone https://aur.archlinux.org/ta-lib.git "$TA_LIB_DIR"
-            cd "$TA_LIB_DIR" || exit 1
-            makepkg -si
-        else
-            echo "ta-lib уже скачан"
-            cd "$TA_LIB_DIR" || exit 1
-        fi
-        ;;
-
-    *)
-        echo "Дистрибутив не поддерживается данным setup.sh. Доступные дистрибутивы: Arch | Manjaro | Debian | Ubuntu "
-        exit 1
-        ;;
-esac
-
+  cd ..
+}
