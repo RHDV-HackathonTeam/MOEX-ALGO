@@ -26,13 +26,16 @@ SERVER_HOST=
 ENABLE_LOGGING=true
 ```
 
-## 3. Установите необходимые зависимости, запустив команду:
+## 3. Установите необходимые зависимости, запустив команду и настройте PYTHONPATH:
 ```.sh
 ❯ python -m venv venv
 ❯ soruce venv/bin/activate
 ❯ pip install -r requirements.txt
 or
 ❯ poetry install
+
+// PYTHONPATH
+❯ export PYTHONPATH=$PYTHONPATH:$(pwd)
 ```
 
 ## 4. Отдельно установить ta-lib

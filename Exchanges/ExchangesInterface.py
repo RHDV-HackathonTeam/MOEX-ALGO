@@ -5,13 +5,27 @@ from typing import Any
 from typing import List
 from typing import Optional
 from typing import Union
+from enum import Enum
 
 from pandas import DataFrame
 
 from abc import abstractstaticmethod
-import pandas as pd
+import logging
+
+from settings import setup_logger
 
 from abc import abstractclassmethod
+
+class MOEXTimePeriods(Enum):
+    ONE_MINUTE = '1m'
+    TEN_MINUTES = '10m'
+    ONE_HOUR = '1h'
+    ONE_DAY = 'D'
+    ONE_WEEK = 'W'
+    ONE_MONTH = 'M'
+    ONE_QUARTER = 'Q'
+
+# print(MOEXTimePeriods.ONE_HOUR)
 
 class ExchangesInterface(object):
     apiKeys: list[str] | None
@@ -35,13 +49,3 @@ class ExchangesInterface(object):
 
     __function_groups = {"key": ["value"]}
 
-    @abstractmethod
-    def makeTimePeriodDataFrame(
-        self,
-        startTIme: Union[str | datetime.datetime] = None,
-        endTime: Union[str | datetime.datetime] = None,
-        bar_interval: Any = None,
-        symbol: str = None,
-    ) -> DataFrame:
-        """ """
-        return DataFrame
