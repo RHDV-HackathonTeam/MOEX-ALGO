@@ -8,10 +8,10 @@ from typing import Union
 
 from pandas import DataFrame
 
-# from abc import abstractstaticmethod
-# import pandas as pd
+from abc import abstractstaticmethod
+import pandas as pd
 
-# from abc import abstractclassmethod
+from abc import abstractclassmethod
 
 
 class ExchangesInterface(object):
