@@ -33,9 +33,11 @@ class UserAgentCore:
             chat_id: int | str,
             last_msg_id: int
     ):
+        posts = []
+
         try:
+
             async with self.app as app:
-                posts = []
                 iterate_status = True
                 offset_id = 0
 
@@ -55,22 +57,26 @@ class UserAgentCore:
                             text=message.text if message.text is not None else message.caption,
                             link=f"https://t.me/{chat_id}/{message.id}"
                         )
-                        async with async_session() as session:
-                            chats_dal = ChatsDAL(session)
 
-                            await chats_dal.add_chat(
-                                id_post=Post.id_post,
-                                id_channel=Post.id_channel,
-                                date=Post.date,
-                                text=Post.text,
-                                link=Post.link
-                            )
+                        print(message.id)
 
                         posts.append(post)
                         offset_id = posts[len(posts) - 1].id_post
 
+
         except Exception as e:
             print(e)
+
+        async with async_session() as session:
+            chats_dal = ChatsDAL(session)
+            for post in posts:
+                await chats_dal.add_chat(
+                    id_post=post.id_post,
+                    id_channel=post.id_channel,
+                    date=post.date,
+                    text=post.text,
+                    link=post.link
+                )
 
 
 if __name__ == "__main__":
@@ -80,4 +86,4 @@ if __name__ == "__main__":
     # asyncio.run(UserAgentCore.create_session(session_name="session", api_id=api_id, api_hash=api_hash))
 
     u = UserAgentCore(session_name="session")
-    asyncio.run(u.parse_chat(chat_id="@markettwits", last_msg_id=267201))
+    asyncio.run(u.parse_chat(chat_id="@markettwits", last_msg_id=200000))

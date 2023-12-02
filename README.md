@@ -81,9 +81,9 @@ or
                     "IPAddress": "172.22.0.2",
 
 // alembic.ini                
-postgresql://postgres:postgres@192.168.192.2:5432/postgres
+sqlalchemy.url = postgresql://root:root@172.22.0.2:5432/root
 //or
-postgresql://postgres:postgres@pgdb:5432/postgres
+sqlalchemy.url = postgresql://root:root@pgdb:5432/root
 ```
 
 3. Изменить target_metadata в migrations/env.py

@@ -9,6 +9,11 @@ class ChatsDAL:
         self.session = session
 
     async def add_chat(self, id_post, id_channel, date, text, link):
+        existing_chat = await self.get_post_text_for_channel(id_post, id_channel)
+
+        if existing_chat:
+            return None  # Если чат уже существует, возвращаем None
+
         try:
             chat = Chats(id_post=id_post, id_channel=id_channel, date=date, text=text, link=link)
             self.session.add(chat)
