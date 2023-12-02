@@ -3,13 +3,13 @@ docker_clean:
 	sudo docker rm $$(sudo docker ps -a -q) || true
 
 docker_up:
-	docker-compose -f database.yaml up
+	docker-compose -f docker-compose.yaml up
 
 docker_upD:
-	docker compose -f docker-compose-local.yaml up -d
+	docker compose -f docker-compose.yaml up -d
 
 docker_down:
-	docker compose -f docker-compose-local.yaml down && docker network prune --force
+	docker compose -f docker-compose.yaml down && docker network prune --force
 
 # Clean cache
 clean:

@@ -16,6 +16,7 @@ from settings import setup_logger
 
 from abc import abstractclassmethod
 
+
 class MOEXTimePeriods(Enum):
     ONE_MINUTE = '1m'
     TEN_MINUTES = '10m'
@@ -26,6 +27,7 @@ class MOEXTimePeriods(Enum):
     ONE_QUARTER = 'Q'
 
 # print(MOEXTimePeriods.ONE_HOUR)
+
 
 class ExchangesInterface(object):
     apiKeys: list[str] | None

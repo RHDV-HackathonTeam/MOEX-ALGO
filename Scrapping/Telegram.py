@@ -1,8 +1,9 @@
 import asyncio
 import dataclasses
-from typing import List, Dict
 from pyrogram import Client
 from datetime import date
+from Database.DAL.ChatsDAL import ChatsDAL
+from Database.session import async_session
 
 sessions_dirPath = "sessions"
 
@@ -10,7 +11,7 @@ sessions_dirPath = "sessions"
 @dataclasses.dataclass
 class Post:
     id_post: int
-    id_channel: int
+    id_channel: int | str
     date: date
     text: str
     link: str
@@ -42,7 +43,6 @@ class UserAgentCore:
                     async for message in app.get_chat_history(
                             chat_id=chat_id, offset_id=offset_id, limit=100
                     ):
-                        print(message.text if message.text is not None else message.caption)
 
                         if message.id <= 1 or message.id <= last_msg_id:
                             iterate_status = False
@@ -55,6 +55,16 @@ class UserAgentCore:
                             text=message.text if message.text is not None else message.caption,
                             link=f"https://t.me/{chat_id}/{message.id}"
                         )
+                        async with async_session() as session:
+                            chats_dal = ChatsDAL(session)
+
+                            await chats_dal.add_chat(
+                                id_post=Post.id_post,
+                                id_channel=Post.id_channel,
+                                date=Post.date,
+                                text=Post.text,
+                                link=Post.link
+                            )
 
                         posts.append(post)
                         offset_id = posts[len(posts) - 1].id_post

@@ -9,6 +9,7 @@ from typing import Union
 from pandas import DataFrame
 import pandas as pd
 
+
 class MOEX(ExchangesInterface):
     def __init__(self, apiKeys: Optional[List[str]] = None):
         super().__init__(apiKeys)

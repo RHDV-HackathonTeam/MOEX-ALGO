@@ -13,7 +13,7 @@ REDIS_PORT=6379
 
 DB_HOST=pgdb
 DB_PORT=5432
-DB_NAME=dev
+DB_NAME=root
 USERNAME=root
 PASSWORD=root
 PGADMIN_DEFAULT_EMAIL=root@root.com
@@ -26,19 +26,7 @@ SERVER_HOST=
 ENABLE_LOGGING=true
 ```
 
-## 3. Установите необходимые зависимости, запустив команду и настройте PYTHONPATH:
-```.sh
-❯ python -m venv venv
-❯ soruce venv/bin/activate
-❯ pip install -r requirements.txt
-or
-❯ poetry install
-
-// PYTHONPATH
-❯ export PYTHONPATH=$PYTHONPATH:$(pwd)
-```
-
-## 4. Отдельно установить ta-lib
+## 3. Отдельно установить ta-lib
 * ### Для Linux:
 ```.sh
 ❯ chmod +x talib.sh
@@ -53,8 +41,19 @@ or
 6. Прописать команду ``` nmake ```
 7. В терминале PyCharm прописать команду ``` pip install ta-lib ``` (для проверки)
 
+## 4. Установите необходимые зависимости, запустив команду и настройте PYTHONPATH:
+```.sh
+❯ python -m venv venv
+❯ soruce venv/bin/activate
+❯ pip install -r requirements.txt
+or
+❯ poetry install
 
-## 5. Start docker with PostgreSQL Database
+// PYTHONPATH
+❯ export PYTHONPATH=$PYTHONPATH:$(pwd)
+```
+
+## 5. Docker start
 ```.sh
 # clear docker cache
 ❯ sudo docker stop $(sudo docker ps -a -q)
@@ -64,13 +63,45 @@ or
 ❯ docker-compose -f docker-compose.yaml up
 ``` 
 
-## 6.  Change database IP
-```.sh
+## 6. Database setup
+
+1. Alembic init
+```.shell
+❯ cd Database
+❯ rm alembic.ini
+❯ rm -rf migrations/
+❯ alembic init migrations
+```
+
+2. Изменить sqlalchemy.url в alembic.ini
+```shell
 ❯ docker inspect pgdb | grep IPAddress
             "SecondaryIPAddresses": null,
             "IPAddress": "",
                     "IPAddress": "172.22.0.2",
-``` 
+
+// alembic.ini                
+postgresql://postgres:postgres@192.168.192.2:5432/postgres
+//or
+postgresql://postgres:postgres@pgdb:5432/postgres
+```
+
+3. Изменить target_metadata в migrations/env.py
+```.python
+from Database.Models import Base
+target_metadata = Base.metadata
+```
+
+4. Создать миграцию
+```.shell
+❯ alembic revision --autogenerate -m 'init'
+```
+
+5. Залить миграцию
+```.shell
+❯ alembic upgrade heads
+```
+
 
 ## 7. Настройка pre-committer
 ```.sh
