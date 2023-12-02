@@ -1,0 +1,73 @@
+import asyncio
+import dataclasses
+from typing import List, Dict
+from pyrogram import Client
+from datetime import date
+
+sessions_dirPath = "sessions"
+
+
+@dataclasses.dataclass
+class Post:
+    id_post: int
+    id_channel: int
+    date: date
+    text: str
+    link: str
+
+
+class UserAgentCore:
+    def __init__(self, session_name: str):
+        self.session_name = session_name
+        self.app = Client(f"{sessions_dirPath}/{session_name}")
+
+    @staticmethod
+    async def create_session(session_name: str, api_id: int, api_hash: str):
+        async with Client(f"{sessions_dirPath}/{session_name}", api_id, api_hash) as app:
+            await app.send_message("me", f"init session {session_name}")
+            return app
+
+    async def parse_chat(
+            self,
+            chat_id: int | str,
+            last_msg_id: int
+    ):
+        try:
+            async with self.app as app:
+                posts = []
+                iterate_status = True
+                offset_id = 0
+
+                while iterate_status:
+                    async for message in app.get_chat_history(
+                            chat_id=chat_id, offset_id=offset_id, limit=100
+                    ):
+                        print(message.text if message.text is not None else message.caption)
+
+                        if message.id <= 1 or message.id <= last_msg_id:
+                            iterate_status = False
+                            break
+
+                        post = Post(
+                            id_post=message.id,
+                            id_channel=chat_id,
+                            date=message.date,
+                            text=message.text if message.text is not None else message.caption,
+                            link=f"https://t.me/{chat_id}/{message.id}"
+                        )
+
+                        posts.append(post)
+                        offset_id = posts[len(posts) - 1].id_post
+
+        except Exception as e:
+            print(e)
+
+
+if __name__ == "__main__":
+    api_id = 123
+    api_hash = ""
+
+    # asyncio.run(UserAgentCore.create_session(session_name="session", api_id=api_id, api_hash=api_hash))
+
+    u = UserAgentCore(session_name="session")
+    asyncio.run(u.parse_chat(chat_id="@markettwits", last_msg_id=267201))
