@@ -62,7 +62,7 @@ class UserAgentCore:
 
                         posts.append(post)
                         offset_id = posts[len(posts) - 1].id_post
-
+                        print("offset", offset_id)
 
         except Exception as e:
             print(e)
@@ -86,4 +86,4 @@ if __name__ == "__main__":
     # asyncio.run(UserAgentCore.create_session(session_name="session", api_id=api_id, api_hash=api_hash))
 
     u = UserAgentCore(session_name="session")
-    asyncio.run(u.parse_chat(chat_id="@markettwits", last_msg_id=200000))
+    asyncio.run(u.parse_chat(chat_id="@markettwits", last_msg_id=255000))

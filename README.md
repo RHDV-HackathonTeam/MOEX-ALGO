@@ -102,6 +102,14 @@ target_metadata = Base.metadata
 ❯ alembic upgrade heads
 ```
 
+## Что делать если pyrogram заблокировался: database locked
+```.shell
+❯ cd Scrapping/sessions/
+❯ fuser session.session
+/home/donqhomo/Desktop/hackatons/MOEX-ALGO/Scrapping/sessions/session.session:  8167
+
+❯ kill -9 8167
+```
 
 ## 7. Настройка pre-committer
 ```.sh
