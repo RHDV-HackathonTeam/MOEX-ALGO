@@ -12,7 +12,7 @@ class ChatsDAL:
         existing_chat = await self.get_post_text_for_channel(id_post, id_channel)
 
         if existing_chat:
-            return None  # Если чат уже существует, возвращаем None
+            return None
 
         try:
             chat = Chats(id_post=id_post, id_channel=id_channel, date=date, text=text, link=link)

@@ -18,3 +18,4 @@ class Chats(Base):
     date = Column(DateTime, nullable=False)
     text = Column(String, nullable=True)
     link = Column(String, nullable=False)
+    resource = Column(String, nullable=False)
