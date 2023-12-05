@@ -1,17 +1,15 @@
 from main import *
 
 investor_types = 3
-clusterised_df = data_clusterization(list(Ticker('SBER').obstats(date='2023-12-01')), ['spread_bbo', 'spread_1mio'], investor_types)
-#чем больше спред тем более краткосрочным инвестр должен быть; долгосрочный - 0, среднесрочный - 1, краткосрочный - 2,
-#потому что так отсортированы центроиды и соответственно их индексы
+long_term = 0
+mid_term = 1
+short_term = 2
 
-for i in clusterised_df['cluster']:
-    if (i == 0):
-        print(clusterised_df[i])
-        print('long-term')
-    elif (i == 1):
-        print(clusterised_df[i])
-        print('mid-term')
-    else:
-        print(clusterised_df[i])
-        print('short-term')
+# чем больше спред тем более краткосрочным инвестр должен быть, поэтому юзаем ['spread_lv10', 'spread_1mio', 'spread_lv10']; 
+# долгосрочный - 0, среднесрочный - 1, краткосрочный - 2, потому что так отсортированы центроиды и соответственно их индексы
+
+df = pd.DataFrame(Market('stocks').obstats(date='2023-11-01'))
+clusterised_df = data_clusterization(df, ['spread_lv10', 'spread_1mio', 'spread_lv10'], investor_types)
+
+print(get_tickers_for_specific_type(clusterised_df, long_term))
+
