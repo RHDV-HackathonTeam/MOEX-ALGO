@@ -20,9 +20,10 @@ class TAInterface(object):
     def __init__(
         self, max_rows: int = 1000, max_columns: int = 1000, width: int = 1000
     ):
-        pd.set_option("display.max_rows", max_rows)
-        pd.set_option("display.max_columns", max_columns)
-        pd.set_option("display.width", width)
+        pass
+        # pd.set_option("display.max_rows", max_rows)
+        # pd.set_option("display.max_columns", max_columns)
+        # pd.set_option("display.width", width)
 
     @abstractclassmethod
     @abstractstaticmethod

@@ -1,6 +1,3 @@
-from TAInterface import TAInterface
-
-from Exchanges.Binance.Spot.Market import BinanceSpotMarket
 from TaLib.Modules.CycleIndicators import CycleIndicators
 from TaLib.Modules.MathOperators import MathOperators
 from TaLib.Modules.MathTransform import MathTransform
@@ -12,9 +9,7 @@ from TaLib.Modules.StatisticFunctions import StatisticFunctions
 from TaLib.Modules.VolatilityIndicators import VolatilityIndicators
 from TaLib.Modules.VolumeIndicators import VolumeIndicators
 
-# import talib
 
-b = BinanceSpotMarket()
 mi = MomentumIndicators(max_rows=1000, max_columns=1000, width=1000)
 ci = CycleIndicators(max_rows=1000, max_columns=1000, width=1000)
 mo = MathOperators(max_rows=1000, max_columns=1000, width=1000)
@@ -25,14 +20,12 @@ pt = PriceTransform(max_rows=1000, max_columns=1000, width=1000)
 sf = StatisticFunctions(max_rows=1000, max_columns=1000, width=1000)
 volatind = VolatilityIndicators(max_rows=1000, max_columns=1000, width=1000)
 volumeind = VolumeIndicators(max_rows=1000, max_columns=1000, width=1000)
-df = b.makeKLinesDataFrame(
-    symbol="BTCUSDT", bar_interval="1h", startTime=None, endTime=None
-)
 
+from Exchanges.MOEX.AlgoPack import *
 
-@TAInterface.is_valid_dataframe
-def ta(df):
-    return df
+moex = MOEX()
+df = moex.get_candles('SBER', '2023-10-10', '2023-10-18', MOEXTimePeriods.TEN_MINUTES)
+df = df.rename(columns={'open': 'Open', 'close': 'Close', 'high': 'High', 'low': 'Low', 'value': 'Value', 'volume': 'Volume', 'begin': 'Begin', 'end': 'End'})
 
 
 # ta(df=df)

@@ -10,7 +10,7 @@ async def test_chats_dal():
         print("Added chat:", chat)
 
         # Получение последнего ID сообщения для канала
-        last_message_id = await chats_dal.get_last_message_id_for_channel("channel1")
+        last_message_id = await chats_dal.get_last_post_id_for_channel("channel1")
         print("Last message ID for channel 'channel1':", last_message_id)
 
 # Запуск тестовой функции

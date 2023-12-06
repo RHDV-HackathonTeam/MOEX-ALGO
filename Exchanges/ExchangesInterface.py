@@ -7,15 +7,6 @@ from typing import Optional
 from typing import Union
 from enum import Enum
 
-from pandas import DataFrame
-
-from abc import abstractstaticmethod
-import logging
-
-from settings import setup_logger
-
-from abc import abstractclassmethod
-
 
 class MOEXTimePeriods(Enum):
     ONE_MINUTE = '1m'

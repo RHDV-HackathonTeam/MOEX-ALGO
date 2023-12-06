@@ -1,7 +1,6 @@
 import os
-import time
+import asyncio
 import pickle
-from typing import Optional
 from selenium import webdriver
 from pyvirtualdisplay import Display
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -35,25 +34,25 @@ class Parser:
         else:
             print("Instance already created:", self.getInstance())
 
-    def close_parser(self):
+    async def close_parser(self):
         try:
             self.driver.close()
             self.__display.stop()
         except Exception as e:
             return e
 
-    def create_session(self, url: str):
+    async def create_session(self, url: str):
         try:
             self.driver.get(url=url)
-            time.sleep(25)
+            await asyncio.sleep(25)
             pickle.dump(self.driver.get_cookies(), open(f'sessions/{self.resource}', 'wb'))
             print(f"session saved! Service: {self.resource}")
         except Exception as e:
             return e
         finally:
-            self.close_parser()
+            await self.close_parser()
 
-    def load_cookie(self, url: str):
+    async def load_cookie(self, url: str):
         try:
             self.driver.get(url)
             for cookie in pickle.load(open(f'sessions/{self.resource}', 'rb')):

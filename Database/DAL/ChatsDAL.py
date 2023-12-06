@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from Database.Models.Model import Chats
+from Database.Models.Chats import Chats
 
 
 class ChatsDAL:
@@ -23,12 +23,15 @@ class ChatsDAL:
             await self.session.rollback()
             return None
 
-    async def get_last_message_id_for_channel(self, id_channel):
+    async def get_last_post_id_for_channel(self, id_channel):
         result = await self.session.execute(
-            select(Chats.id).filter(Chats.id_channel == id_channel).order_by(Chats.id.desc()).limit(1)
+            select(Chats.id_post)
+            .filter(Chats.id_channel == id_channel)
+            .order_by(Chats.date.desc(), Chats.id.desc())
+            .limit(1)
         )
-        last_id = result.scalar_one_or_none()
-        return last_id
+        last_post_id = result.scalar_one_or_none()
+        return last_post_id
 
     async def get_chat_texts_for_channel(self, id_channel):
         result = await self.session.execute(
@@ -36,6 +39,23 @@ class ChatsDAL:
         )
         texts = [row[0] for row in result]
         return texts
+
+    async def select_all(self):
+        result = await self.session.execute(
+            select(Chats)
+        )
+        chats = []
+        for row in result.scalars():
+            chat_dict = {
+                'id': row.id,
+                'id_post': row.id_post,
+                'id_channel': row.id_channel,
+                'date': row.date,
+                'link': row.link,
+                'text': row.text
+            }
+            chats.append(chat_dict)
+        return chats
 
     async def get_post_text_for_channel(self, id_post, id_channel):
         result = await self.session.execute(
