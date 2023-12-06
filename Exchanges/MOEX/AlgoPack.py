@@ -9,6 +9,10 @@ from typing import Union
 from pandas import DataFrame
 import pandas as pd
 
+import json
+
+dct = {}
+
 
 class MOEX(ExchangesInterface):
     def __init__(self, apiKeys: Optional[List[str]] = None):
@@ -61,9 +65,17 @@ class MOEX(ExchangesInterface):
         output = list()
 
         for ticker in stocks.tickers():
-            output.append(ticker['SECID'])
+            dct[ticker['SECID']] = [ticker['SHORTNAME'], ticker['SECNAME'], ticker['LATNAME']]
+            # print(ticker)
+            # output.append(ticker['SECID'])
+        
+        # json_string = json.dumps(dct)
+        with open('output.json', 'w') as json_file:
+            json.dump(dct, json_file)
 
         return output
+
+
 
 
 if __name__ == "__main__":
@@ -71,13 +83,13 @@ if __name__ == "__main__":
         moex = MOEX()
         # candles_df = moex.get_candles('SBER', '2023-10-10', '2023-10-18', MOEXTimePeriods.TEN_MINUTES)
         # print(candles_df.head())
-        #
+        
         # tradestats_df = moex.get_tradestats('SBER', '2023-10-10', '2023-10-18')
         # print(tradestats_df.head())
-        #
+        
         # orderstats_df = moex.get_orderstats('SBER', '2023-10-10', '2023-10-18')
         # print(orderstats_df.head())
-        #
+        
         # obstats_df = moex.get_obstats('SBER', '2023-10-10', '2023-10-18')
         # print(obstats_df.head())
 
