@@ -112,6 +112,19 @@ target_metadata = Base.metadata
 ```
 
 ## API EndPoints
+
+### MOEX TimePeriods
+```.python
+class MOEXTimePeriods(Enum):
+    ONE_MINUTE = '1m'
+    TEN_MINUTES = '10m'
+    ONE_HOUR = '1h'
+    ONE_DAY = 'D'
+    ONE_WEEK = 'W'
+    ONE_MONTH = 'M'
+    ONE_QUARTER = 'Q'
+```
+
 ### 1. GetCandles - получение катировок тикера с/по указанную дату с указанным тайм-периодом свечи
 #### Route ```POST http://0.0.0.0:9878/api/ticker/get_candles ```
 #### Body
