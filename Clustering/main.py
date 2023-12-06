@@ -3,6 +3,7 @@ from sklearn.cluster import KMeans
 from moexalgo import *
 from sklearn.impute import SimpleImputer
 
+
 def data_clusterization(data_frame, cluster_metrics, clusters_number):
     imputer = SimpleImputer(strategy='mean') 
     df = pd.DataFrame(data_frame)
@@ -12,6 +13,7 @@ def data_clusterization(data_frame, cluster_metrics, clusters_number):
     model.fit(df_imputed)
     df['cluster'] = model.labels_
     return df
+
 
 def get_tickers_for_specific_type(clusterised_data, number_investor_type):
     ticker_pos = 0
