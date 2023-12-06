@@ -4,12 +4,7 @@ import os
 
 import yaml
 
-# import coloredlogs
-
-# from envparse import Env
-
 basedir = os.path.abspath(os.path.dirname(__file__))
-# env = Env()
 config = configparser.ConfigParser()
 config.read(f"{basedir}/config.ini")
 

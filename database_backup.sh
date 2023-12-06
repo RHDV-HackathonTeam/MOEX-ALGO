@@ -1,8 +1,8 @@
 #!/bin/bash
 
-db_name='postgres'
-db_user='postgres'
-db_host='192.168.144.2'
+db_name='root'
+db_user='root'
+db_host='172.24.0.3'
 backupfolder=$PWD/db_backups
 
 keep_day=30
