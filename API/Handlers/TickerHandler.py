@@ -616,14 +616,12 @@ async def add_indicators(indicators_data: dict):
             elif indicator == "CDLXSIDEGAP3METHODS":
                 df = pr.CDLXSIDEGAP3METHODS(df=df)
 
-
         df = df.where(pd.notnull(df), "Null")
         candles_data = df.to_dict(orient="records")
         response_data = {
             "candles": candles_data
         }
 
-        print(df.tail(100))
 
         return response_data
 

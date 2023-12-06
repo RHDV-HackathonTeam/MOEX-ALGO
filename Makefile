@@ -11,6 +11,9 @@ docker_upD:
 docker_down:
 	docker compose -f docker-compose.yaml down && docker network prune --force
 
+server_up:
+	uvicorn API.main:app --workers 4 --host 0.0.0.0 --port 9878
+
 # Clean cache
 clean:
 	find . -name __pycache__ -type d -print0|xargs -0 rm -r --
@@ -27,9 +30,6 @@ alembic_rev:
 
 alembic_upgrade:
 	alembic upgrade heads
-
-server_up:
-	uvicorn app.main:app
 
 pre_commit:
 	pre-commit run flake8 --all-files
