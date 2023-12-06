@@ -1235,6 +1235,7 @@ class MOEXTimePeriods(Enum):
         
     ]
 }
+```
 
 ### 5. GetAllNews - получение всех новостей отсортированных по дате
 #### Route - ```GET http://0.0.0.0:9878/api/news/get_all_news```
