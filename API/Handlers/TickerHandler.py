@@ -37,7 +37,7 @@ ticker_router = APIRouter()
 
 @ticker_router.post("/add_indicators")
 async def add_indicators(indicators_data: dict):
-    # try:
+    try:
         ticker = indicators_data.get('ticker')
         from_date = indicators_data.get('from_date')
         to_date = indicators_data.get('to_date')
@@ -622,12 +622,11 @@ async def add_indicators(indicators_data: dict):
             "candles": candles_data
         }
 
-
         return response_data
 
-    # except Exception as e:
-    #     logger.error(f"Error adding indicators: {e}")
-    #     raise HTTPException(status_code=500, detail="Error adding indicators")
+    except Exception as e:
+        logger.error(f"Error adding indicators: {e}")
+        raise HTTPException(status_code=500, detail=f"Error adding indicators: {e}")
 
 
 @ticker_router.post("/get_candles")

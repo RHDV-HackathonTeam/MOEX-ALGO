@@ -184,7 +184,45 @@ target_metadata = Base.metadata
 }
 ```
 
-### 3. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к катировкам, доступных в TA-Lib
+### 3. TickersClustering - получение списка кластеризованных тикеров, под тип инвестирования
+#### Route - ```GET http://0.0.0.0:9878/api/clustering/cluster_tickers```
+#### Response
+```.json
+{
+    "long_term": [
+        "ELTZ",
+        "HIMCP",
+        "MRSB",
+        "RTGZ",
+        "SAGO",
+        "VGSBP",
+        
+        etc...
+    ],
+    "mid_term": [
+        "ABRD",
+        "AFKS",
+        "AFLT",
+        "AGRO",
+        
+        etc...
+    ],
+    "short_term": [
+        "ARSA",
+        "ASSB",
+        "BISVP",
+        "BRZL",
+        "BSPBP",
+        "CHKZ",
+        "DIOD",
+        "DZRD",
+        
+        etc...
+    ]
+}
+```
+
+### 4. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к катировкам, доступных в TA-Lib
 #### Route ```POST http://0.0.0.0:9878/api/ticker/add_indicators```
 #### Body
 ```.json
