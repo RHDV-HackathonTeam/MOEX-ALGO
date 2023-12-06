@@ -12,4 +12,5 @@ class WebResources(Base):
     link = Column(String, nullable=False)
     date = Column(DateTime, nullable=False)
     tags = Column(ARRAY(String), nullable=True)
+    rating = Column(Integer, nullable=True)
     text = Column(String, nullable=True)

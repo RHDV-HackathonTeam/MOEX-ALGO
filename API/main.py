@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.routing import APIRouter
 from API.Handlers.TickerHandler import ticker_router
 from API.Handlers.ClusterHandler import cluster_router
-
+from API.Handlers.NewsHandler import news_router
 
 app = FastAPI(title="StatTron Master Node")
 
@@ -15,6 +15,10 @@ main_api_router.include_router(
 
 main_api_router.include_router(
     cluster_router, prefix="/api/clustering", tags=["clustering"]
+)
+
+main_api_router.include_router(
+    news_router, prefix="/api/news", tags=["news"]
 )
 
 app.include_router(main_api_router)

@@ -3,6 +3,9 @@ from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from Database.Models.WebResources import WebResources
 from sqlalchemy import desc
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import cast
+from sqlalchemy import String
 
 
 class WebResourcesDAL:
@@ -45,7 +48,8 @@ class WebResourcesDAL:
                 'link': row.link,
                 'date': row.date,
                 'tags': row.tags,
-                'text': row.text
+                'text': row.text,
+                'rating': row.rating
             }
             resources.append(resource_dict)
         return resources
@@ -66,3 +70,39 @@ class WebResourcesDAL:
         )
         text = result.scalar_one_or_none()
         return text
+
+    async def add_rating(self, link, rating):
+        existing_resource = await self.get_text_by_link(link)
+
+        if not existing_resource:
+            return None
+
+        try:
+            existing_resource.rating = rating
+            await self.session.flush()
+            return existing_resource
+        except IntegrityError:
+            await self.session.rollback()
+            return None
+
+    async def add_tags(self, link, tags):
+        existing_resource = await self.get_text_by_link(link)
+
+        if not existing_resource:
+            return None
+
+        try:
+            existing_resource.tags = tags
+            await self.session.flush()
+            return existing_resource
+        except IntegrityError:
+            await self.session.rollback()
+            return None
+
+    async def get_resources_by_ticker_tag(self, ticker):
+        result = await self.session.execute(
+            select(WebResources)
+            .filter(cast(WebResources.tags, ARRAY(String)).contains([ticker]))
+        )
+        resources = [row for row in result.scalars()]
+        return resources

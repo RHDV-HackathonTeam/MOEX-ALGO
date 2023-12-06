@@ -2,6 +2,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from Database.Models.Chats import Chats
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import cast
+from sqlalchemy import String
 
 
 class ChatsDAL:
@@ -52,7 +55,8 @@ class ChatsDAL:
                 'id_channel': row.id_channel,
                 'date': row.date,
                 'link': row.link,
-                'text': row.text
+                'text': row.text,
+                'rating': row.rating
             }
             chats.append(chat_dict)
         return chats
@@ -63,3 +67,39 @@ class ChatsDAL:
         )
         post_text = result.scalar_one_or_none()
         return post_text
+
+    async def add_rating(self, id_post, id_channel, rating):
+        existing_chat = await self.get_post_text_for_channel(id_post, id_channel)
+
+        if not existing_chat:
+            return None
+
+        try:
+            existing_chat.rating = rating
+            await self.session.flush()
+            return existing_chat
+        except IntegrityError:
+            await self.session.rollback()
+            return None
+
+    async def add_tags(self, id_post, id_channel, tags):
+        existing_chat = await self.get_post_text_for_channel(id_post, id_channel)
+
+        if not existing_chat:
+            return None
+
+        try:
+            existing_chat.tags = tags
+            await self.session.flush()
+            return existing_chat
+        except IntegrityError:
+            await self.session.rollback()
+            return None
+
+    async def get_chats_by_ticker_tag(self, ticker):
+        result = await self.session.execute(
+            select(Chats)
+            .filter(cast(Chats.tags, ARRAY(String)).contains([ticker]))
+        )
+        resources = [row for row in result.scalars()]
+        return resources
