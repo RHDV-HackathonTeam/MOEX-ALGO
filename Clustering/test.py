@@ -1,4 +1,4 @@
-from main import *
+from ClusteringTickers import *
 
 investor_types = 3
 long_term = 0

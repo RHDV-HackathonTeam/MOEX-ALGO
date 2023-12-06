@@ -29,8 +29,8 @@ class CycleIndicators(TAInterface, ABC):
     def HT_PHASOR(df: DataFrame) -> DataFrame:
         output = df
         (
-            output["inphase"],
-            output["quadrature"],
+            output["HT_PHASOR_inphase"],
+            output["HT_PHASOR_quadrature"],
         ) = talib.HT_PHASOR(df["Close"])
         return output
 
@@ -38,7 +38,7 @@ class CycleIndicators(TAInterface, ABC):
     @TAInterface.is_valid_dataframe
     def HT_SINE(df: DataFrame) -> DataFrame:
         output = df
-        (output["sine"], output["leadsine"]) = talib.HT_SINE(df["Close"])
+        (output["HT_SINE_sine"], output["HT_SINE_leadsine"]) = talib.HT_SINE(df["Close"])
         return output
 
 

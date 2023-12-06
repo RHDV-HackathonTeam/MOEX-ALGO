@@ -14,7 +14,7 @@ class TAInterface(object):
 
     @property
     def modules(self):
-        return self.__function_groups.keys()
+        return self.function_groups.keys()
 
     @abstractmethod
     def __init__(
@@ -40,8 +40,6 @@ class TAInterface(object):
                         and "Volume" not in columns
                     ):
                         raise TaLibBaseException(err="DataFrame is not valid")
-                    else:
-                        print("df is valid")
                 else:
                     raise TaLibBaseException(err="kwargs.get('df') is not DataFrame")
 
@@ -50,7 +48,7 @@ class TAInterface(object):
 
         return wrapper
 
-    __function_groups = {
+    function_groups = {
         "Cycle Indicators": [
             "HT_DCPERIOD",
             "HT_DCPHASE",

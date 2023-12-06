@@ -19,7 +19,7 @@ class MainLayer(object):
     @classmethod
     async def ParseIterate(cls):
 
-        # try:
+        try:
             tg = UserAgentCore(session_name="session")
             rbc = RBCParser()
 
@@ -48,11 +48,11 @@ class MainLayer(object):
                     await web_dal.add_web_resource("rbc", href, datetime.now(), tags=output[1], text=output[0])
                     print("handled stale reference error, added default data")
 
-    # except Exception as e:
-        #     return e
+        except Exception as e:
+            return e
 
-        # finally:
-        #     await rbc.close_parser()
+        finally:
+            await rbc.close_parser()
 
 
 asyncio.run(MainLayer.ParseIterate())

@@ -81,7 +81,11 @@ if __name__ == "__main__":
         # obstats_df = moex.get_obstats('SBER', '2023-10-10', '2023-10-18')
         # print(obstats_df.head())
 
-        print(moex.get_tickers())
+        # print(moex.get_tickers())
+
+        stock = Market('stocks').tickers()
+        for ticker in stock:
+            print(ticker)
 
     except MOEXAlgoPackException as e:
         print(f"MOEXAlgoPack Error: {e}")

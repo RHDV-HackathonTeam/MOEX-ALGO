@@ -17,9 +17,9 @@ class OverlapStudies(TAInterface, ABC):
     ) -> DataFrame:
         output = df
         (
-            output[f"upperband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
-            output[f"middleband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
-            output[f"lowerband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
+            output[f"BBANDS_upperband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
+            output[f"BBANDS_middleband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
+            output[f"BBANDS_lowerband {timeperiod} {nbdevup} {nbdevdn} {matype}"],
         ) = talib.BBANDS(
             df["Close"],
             timeperiod=timeperiod,
@@ -73,8 +73,8 @@ class OverlapStudies(TAInterface, ABC):
     def MAMA(df: DataFrame, fastlimit: float, slowlimit: float) -> DataFrame:
         output = df
         (
-            output[f"mama {fastlimit} {slowlimit}"],
-            output[f"fama {fastlimit} {slowlimit}"],
+            output[f"MAMA_mama {fastlimit} {slowlimit}"],
+            output[f"MAMA_fama {fastlimit} {slowlimit}"],
         ) = talib.MAMA(
             df["Close"],
             fastlimit=fastlimit,

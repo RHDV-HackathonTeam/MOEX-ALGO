@@ -97,7 +97,7 @@ class MomentumIndicators(TAInterface, ABC):
         (
             output[f"MACD {fastperiod} {slowperiod} {signalperiod}"],
             output[f"MACD signal {fastperiod} {slowperiod} {signalperiod}"],
-            output[f" MACD hist {fastperiod} {slowperiod} {signalperiod}"],
+            output[f"MACD hist {fastperiod} {slowperiod} {signalperiod}"],
         ) = talib.MACD(
             df["Close"],
             fastperiod=fastperiod,

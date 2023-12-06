@@ -68,8 +68,8 @@ class MathOperators(TAInterface, ABC):
     def MINMAX(df: DataFrame, timeperiod: int) -> DataFrame:
         output = df
         (
-            output["min"],
-            output["max"],
+            output["MINMAX_min"],
+            output["MINMAX_max"],
         ) = talib.MINMAX(df["Close"], timeperiod=timeperiod)
         return output
 
@@ -78,8 +78,8 @@ class MathOperators(TAInterface, ABC):
     def MINMAXINDEX(df: DataFrame, timeperiod: int) -> DataFrame:
         output = df
         (
-            output["minidx"],
-            output["maxidx"],
+            output["MINMAXINDEX_minidx"],
+            output["MINMAXINDEX_maxidx"],
         ) = talib.MINMAXINDEX(df["Close"], timeperiod=timeperiod)
         return output
 

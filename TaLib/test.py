@@ -208,7 +208,7 @@ df = df.rename(columns={'open': 'Open', 'close': 'Close', 'high': 'High', 'low':
 # o = volumeind.ADOSC(df=df, fastperiod=3, slowperiod=10)
 # o = volumeind.OBV(df=df)
 
-print(o.tail(10))
+# print(o.tail(10))
 
 # # ms = abstract.CDLMORNINGSTAR(data)
 # # print(ms[ms!=0])
