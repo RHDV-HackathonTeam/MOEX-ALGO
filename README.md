@@ -1276,10 +1276,6 @@ class MOEXTimePeriods(Enum):
         etc...
 ]
 ```
-```
-
-
-
 
 
 ## 7. Настройка pre-committer
