@@ -35,8 +35,8 @@ const NewsFeed = () => {
       {news.map((item, index) => (
         <Card key={index} style={{ marginBottom: '3px', display: 'flex', alignItems: 'center' }}>
           <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-            <div>
-              <Typography variant="body" component="div">{item.text.split('\.')[0]}</Typography>
+            <div>                                         
+              <Typography variant="body" component="div">{item.text ? item.text.split('\.')[0] : null}</Typography>
               {/* <Typography variant="h6" style={{ color: item.tone === 'positive' ? 'green' : 'red' }}>{item.tone}</Typography> */}
               <Typography variant="h6" >{item.source}</Typography>
             </div>
