@@ -56,9 +56,22 @@ export const Graph = props => {
 				wickDownColor: '#838ca1',
 				wickUpColor: '#838ca1',
 			});
+			
+			data.sort((a, b) => new Date(a.Begin) - new Date(b.Begin));
 
-			candleSeries.setData(data[1]);
-			candleSeries.setMarkers(data[2]);
+			const transformedData = data.map(item => {
+				return {
+				  time: item.End.split('T')[0],
+				  open: item.Open,
+				  high: item.High,
+				  low: item.Low,
+				  close: item.Close
+				};
+			  });
+			
+			
+			candleSeries.setData(transformedData);
+			// candleSeries.setMarkers(data[2]);
 
 			window.addEventListener('resize', handleResize);
 
@@ -72,8 +85,6 @@ export const Graph = props => {
 	);
 
 	return (
-		<div
-			ref={chartContainerRef}
-		/>
+		<div ref={chartContainerRef}/>
 	);
 };

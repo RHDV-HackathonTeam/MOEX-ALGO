@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
-
+import axios from 'axios';
 
 // const news = [
 //   { tone: "positive", title: 'yjdcnm ngfh dfgdfg', link: "https://google.com/" },
@@ -14,10 +14,10 @@ import { Card, CardContent, Typography, Button } from '@mui/material';
 
 const NewsFeed = () => {
 
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState([]);
   
   useEffect(() => {
-    axios.get('http://localhost:9878/api/news')
+    axios.get('http://localhost:9878/api/news/get_all_news')
       .then(response => {
         setNews(response.data);
       })
@@ -36,7 +36,7 @@ const NewsFeed = () => {
         <Card key={index} style={{ marginBottom: '3px', display: 'flex', alignItems: 'center' }}>
           <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <div>
-              <Typography variant="body" component="div">{item.text}</Typography>
+              <Typography variant="body" component="div">{item.text.split('\.')[0]}</Typography>
               {/* <Typography variant="h6" style={{ color: item.tone === 'positive' ? 'green' : 'red' }}>{item.tone}</Typography> */}
               <Typography variant="h6" >{item.source}</Typography>
             </div>

@@ -9,8 +9,8 @@ import axios from 'axios';
 import "./components/graphstyles.css"
 
 const strategies_list = [
-  { title: 'Strategy 1', from: '1984/12/27', to: '2228/12/27', ticker: 'GAZP', profitability: '11', riskreward: '1/3', riskondeal: '2', maxloss: '122', maxdayloss: '278' },
-  { title: 'Strategy 2', from: '1984/12/27', to: '2228/12/27', ticker: 'GAZP', profitability: '22', riskreward: '1/3', riskondeal: '2', maxloss: '222', maxdayloss: '278' },
+  { title: 'Strategy 1', from: '2022/10/27', to: '2022/11/27', ticker: 'GAZP', profitability: '11', riskreward: '1/3', riskondeal: '2', maxloss: '122', maxdayloss: '278' },
+  { title: 'Strategy 2', from: '2022/11/27', to: '2022/12/27', ticker: 'GAZP', profitability: '22', riskreward: '1/3', riskondeal: '2', maxloss: '222', maxdayloss: '278' },
 ];
 
 function App() {
@@ -19,6 +19,9 @@ function App() {
   const [formData, setFormData] = useState({});
   const [strategies, setStrategies] = useState(strategies_list);
   const [tickers, setTickers] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [forceRerender, setForceRerender] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:9878/api/ticker/ticker_list')
@@ -28,12 +31,41 @@ function App() {
       .catch(error => {
         console.error('Error fetching tickers:', error);
       });
+    
   }, []);
 
+ 
   const handleShowInfo = (btn) => {
     const matches = btn.target.parentElement.textContent.match(/\d+/);
     let num = parseInt(matches[0]);
     setSelectedStrategy(strategies[num-1]);
+
+    let originalDate = strategies[num-1].from;
+    let modifiedDate = originalDate.replace(/\//g, '-');
+
+    let originalDate2 = strategies[num-1].to;
+    let modifiedDate2 = originalDate2.replace(/\//g, '-');
+
+    const rdata = {
+      ticker: strategies[num-1].ticker,
+      from_date: modifiedDate,
+      to_date: modifiedDate2,
+      time_period: 'D'
+    };
+
+      const fetchData = async () => {
+        try {
+          const response = await axios.post('http://localhost:9878/api/ticker/get_candles', rdata);
+          setData(response.data.candles);
+          setLoading(false); // Set loading to false when data arrives
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setLoading(false); // Set loading to false in case of an error
+        }
+      };
+
+    fetchData();
+    setForceRerender(prev => !prev);
     // console.log(selectedStrategy)
   };
 
@@ -53,14 +85,28 @@ function App() {
   };
 
   const handleSend = () => {
-    axios.post('your-api-endpoint', formData)
-      .then((response) => {
-        // Handle successful response
-        handleCloseModal();
+
+    let originalDate = formData.from;
+    let modifiedDate = originalDate.replace(/\//g, '-');
+
+    let originalDate2 = formData.to;
+    let modifiedDate2 = originalDate.replace(/\//g, '-');
+
+    const rdata = {
+      ticker: formData.ticker,
+      from_date: modifiedDate,
+      to_date: modifiedDate2,
+      time_period: 'D'
+    };
+
+    axios.post('http://localhost:9878/api/ticker/get_candles', rdata)
+      .then(response => {
+        setFormData(response.data.candles);
       })
-      .catch((error) => {
-        // Handle error
+      .catch(error => {
+        console.error('Error fetching news:', error);
       });
+
 
       const newStrategy = {
         title: formData.title,
