@@ -245,7 +245,7 @@ class MOEXTimePeriods(Enum):
 }
 ```
 
-### 4. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к катировкам, доступных в TA-Lib
+### 4. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к котировкам, доступных в TA-Lib
 #### Route ```POST http://0.0.0.0:9878/api/ticker/add_indicators```
 #### Body
 ```.json
