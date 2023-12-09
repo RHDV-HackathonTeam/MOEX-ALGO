@@ -1,6 +1,6 @@
 import asyncio
 
-from ML.BagOfWords import NewsSentimentClassifier
+from SentimentClassifier.SentimentClassifier import NewsSentimentClassifier
 from Scrapping.Parsers.RBCInvest import RBCParser
 from Scrapping.Parsers.TelegramUserAgent import UserAgentCore
 from Database.DAL.ChatsDAL import ChatsDAL

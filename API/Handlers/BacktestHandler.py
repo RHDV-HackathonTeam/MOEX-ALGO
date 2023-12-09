@@ -34,10 +34,15 @@ async def dualsma(ticker_data: dict):
         )
 
         s.DualSMAStrategy(fast_period, long_period)
-        max_day_loss, max_day_profitability,\
-            final_balance, overall_profit,\
-            total_trades, profitable_trades\
-            = s.risk_reward_backtest(risk=risk, reward_ratio=reward_ratio, stop_loss_ratio=stop_loss_ratio, take_profit_ratio=take_profit_ratio)
+        max_day_loss, max_day_profitability, \
+            final_balance, overall_profit, \
+            total_trades, profitable_trades \
+            = await s.backtest_with_news(
+            risk=risk,
+            reward_ratio=reward_ratio,
+            stop_loss_ratio=stop_loss_ratio,
+            take_profit_ratio=take_profit_ratio
+        )
 
         df = s.df
 
@@ -62,4 +67,3 @@ async def dualsma(ticker_data: dict):
     except Exception as e:
         logger.error(f"Error fetching candles data: {e}")
         raise HTTPException(status_code=500, detail="Error fetching candles data")
-
