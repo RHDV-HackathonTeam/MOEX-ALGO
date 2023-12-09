@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "c96d4017-b4ca-41e4-808b-2284b7b9f490",
+		"name": "MOEX_ALGO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10258449"
+	},
+	"item": [
+		{
+			"name": "get_candles",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticker\": \"SBER\",\n    \"from_date\": \"2023-10-10\",\n    \"to_date\": \"2023-10-18\",\n    \"time_period\": \"D\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://0.0.0.0:9878/api/ticker/get_candles"
+			},
+			"response": []
+		},
+		{
+			"name": "ticker_list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://0.0.0.0:9878/api/ticker/ticker_list"
+			},
+			"response": []
+		},
+		{
+			"name": "add_indicators",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticker\": \"SBER\",\n    \"from_date\": \"2023-10-10\",\n    \"to_date\": \"2023-10-18\",\n    \"time_period\": \"10m\",\n    \"selected_indicators\": [\n        {\n            \"indicator\": \"HT_DCPERIOD\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"HT_DCPHASE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"HT_PHASOR\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"HT_SINE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ACOS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ASIN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ATAN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CEIL\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"COS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"COSH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"EXP\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"FLOOR\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"LN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"LOG10\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"SIN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"SINH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"SQRT\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"TAN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"TANH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ADD\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"DIV\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"MAX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MAXINDEX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MAXINDEX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MIN\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MININDEX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MINMAX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MINMAXINDEX\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"MULT\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"SUB\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"SUM\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"ADX\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"ADXR\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"AROON\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"AROONOSC\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"CCI\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"CMO\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"DX\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"MFI\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"MINUS_DI\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"MINUS_DM\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"MOM\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"PLUS_DI\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"PLUS_DM\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"ROC\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"ROCR\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"ROCR100\",\n            \"params\": {\n                \"timeperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"RSI\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"TRIX\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"WILLR\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"BOP\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"MACDFIX\",\n            \"params\": {\n                \"signalperiod\": 9\n            }\n        },\n        {\n            \"indicator\": \"MACD\",\n            \"params\": {\n                \"fastperiod\": 12,\n                \"slowperiod\": 26,\n                \"signalperiod\": 9\n            }\n        },\n        {\n            \"indicator\": \"MACDEXT\",\n            \"params\": {\n                \"fastperiod\": 12,\n                \"fastmatype\": 0,\n                \"slowperiod\": 26,\n                \"slowmatype\": 0,\n                \"signalperiod\": 9,\n                \"signalmatype\": 0\n\n            }\n        },\n        {\n            \"indicator\": \"PPO\",\n            \"params\": {\n                \"fastperiod\": 12,\n                \"slowperiod\": 26,\n                \"matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"STOCH\",\n            \"params\": {\n                \"fastk_period\": 5,\n                \"slowk_period\": 3,\n                \"slowk_matype\": 0,\n                \"slowd_period\": 3,\n                \"slowd_matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"STOCHF\",\n            \"params\": {\n                \"fastk_period\": 5,\n                \"fastd_period\": 3,\n                \"fastd_matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"STOCHRSI\",\n            \"params\": {\n                \"timeperiod\": 14,\n                \"fastk_period\": 5,\n                \"fastd_period\": 3,\n                \"fastd_matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"ULTOSC\",\n            \"params\": {\n                \"timeperiod1\": 7,\n                \"timeperiod2\": 14,\n                \"timeperiod3\": 28\n            }\n        },\n        {\n            \"indicator\": \"BBANDS\",\n            \"params\": {\n                \"timeperiod\": 5,\n                \"nbdevup\": 2,\n                \"nbdevdn\": 2,\n                \"matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"DEMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"EMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"HT_TRENDLINE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"KAMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"MA\",\n            \"params\": {\n                \"timeperiod\": 30,\n                \"matype\": 0\n            }\n        },\n        {\n            \"indicator\": \"MAMA\",\n            \"params\": {\n                \"fastlimit\": 0.5,\n                \"slowlimit\": 0.05\n            }\n        },\n        {\n            \"indicator\": \"MIDPOINT\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"MIDPRICE\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"SAR\",\n            \"params\": {\n                \"acceleration\": 0.02,\n                \"maximum\": 0.2\n            }\n        },\n        {\n            \"indicator\": \"SAREXT\",\n            \"params\": {\n                \"startvalue\": 0,\n                \"offsetonreverse\": 0,\n                \"accelerationinitlong\": 0.02,\n                \"accelerationlong\": 0.02,\n                \"accelerationmaxlong\": 0.2,\n                \"accelerationinitshort\": 0.02,\n                \"accelerationshort\": 0.02,\n                \"accelerationmaxshort\": 0.2\n            }\n        },\n        {\n            \"indicator\": \"SMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n\n        {\n            \"indicator\": \"T3\",\n            \"params\": {\n                \"timeperiod\": 5,\n                \"vfactor\": 0.7\n            }\n        },\n        {\n            \"indicator\": \"TEMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"TRIMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"WMA\",\n            \"params\": {\n                \"timeperiod\": 30\n            }\n        },\n        {\n            \"indicator\": \"AVGPRICE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"MEDPRICE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"TYPPRICE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"WCLPRICE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ATR\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"NATR\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"TRANGE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"AD\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"OBV\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"ADOSC\",\n            \"params\": {\n                \"fastperiod\": 3,\n                \"slowperiod\": 10\n            }\n        },\n        {\n            \"indicator\": \"BETA\",\n            \"params\": {\n                \"timeperiod\": 5\n            }\n        },\n        {\n            \"indicator\": \"CORREL\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"LINEARREG\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"LINEARREG_ANGLE\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"LINEARREG_INTERCEPT\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"LINEARREG_SLOPE\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"TSF\",\n            \"params\": {\n                \"timeperiod\": 14\n            }\n        },\n        {\n            \"indicator\": \"STDDEV\",\n            \"params\": {\n                \"timeperiod\": 5,\n                \"nbdev\": 1\n            }\n        },\n        {\n            \"indicator\": \"VAR\",\n            \"params\": {\n                \"timeperiod\": 5,\n                \"nbdev\": 1\n            }\n        },\n        {\n            \"indicator\": \"CDL2CROWS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3BLACKCROWS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3INSIDE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3LINESTRIKE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3OUTSIDE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3STARSINSOUTH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDL3WHITESOLDIERS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLABANDONEDBABY\",\n            \"params\": {\n                \"penetration\": 0.3\n            }\n        },\n        {\n            \"indicator\": \"CDLADVANCEBLOCK\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLBELTHOLD\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLBREAKAWAY\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLCLOSINGMARUBOZU\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLCONCEALBABYSWALL\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLCOUNTERATTACK\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLDARKCLOUDCOVER\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLDOJI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLDOJISTAR\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLENGULFING\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLDRAGONFLYDOJI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLEVENINGDOJISTAR\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLEVENINGSTAR\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLGAPSIDESIDEWHITE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLGRAVESTONEDOJI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHAMMER\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHANGINGMAN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHARAMI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHARAMICROSS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHIGHWAVE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHIKKAKE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHIKKAKEMOD\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLHOMINGPIGEON\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLIDENTICAL3CROWS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLINNECK\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLINVERTEDHAMMER\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLKICKING\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLKICKINGBYLENGTH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLLADDERBOTTOM\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLLONGLEGGEDDOJI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLLONGLINE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLMARUBOZU\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLMATCHINGLOW\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLMATHOLD\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLMORNINGDOJISTAR\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLMORNINGSTAR\",\n            \"params\": {\n                \"penetration\": 0.5\n            }\n        },\n        {\n            \"indicator\": \"CDLONNECK\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLPIERCING\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLRICKSHAWMAN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLRISEFALL3METHODS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSEPARATINGLINES\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSHOOTINGSTAR\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSHORTLINE\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSPINNINGTOP\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSTALLEDPATTERN\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLSTICKSANDWICH\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLTAKURI\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLTASUKIGAP\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLTHRUSTING\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLTRISTAR\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLUNIQUE3RIVER\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLUPSIDEGAP2CROWS\",\n            \"params\": {}\n        },\n        {\n            \"indicator\": \"CDLXSIDEGAP3METHODS\",\n            \"params\": {}\n        }\n        \n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://0.0.0.0:9878/api/ticker/add_indicators"
+			},
+			"response": []
+		},
+		{
+			"name": "cluster_tickers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://0.0.0.0:9878/api/clustering/cluster_tickers"
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_news",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://0.0.0.0:9878/api/news/get_all_news"
+			},
+			"response": []
+		},
+		{
+			"name": "get news by ticker",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticker\": \"SBER\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://0.0.0.0:9878/api/news/get_news_by_ticker"
+			},
+			"response": []
+		},
+		{
+			"name": "Backtest_DUALSMA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticker\": \"SBER\",\n    \"from_date\": \"2022-10-10\",\n    \"to_date\": \"2023-10-18\",\n    \"time_period\": \"1h\",\n    \"fast_period\": 10,\n    \"long_period\": 50,\n    \"risk\": 1,\n    \"reward_ratio\": 3,\n    \"stop_loss_ratio\": 2,\n    \"take_profit_ratio\": 5,\n    \"start_balance\": 10000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://0.0.0.0:9878/api/backtest/dualsma"
+			},
+			"response": []
+		},
+		{
+			"name": "Backtest_MACD",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ticker\": \"SBER\",\n    \"from_date\": \"2022-10-10\",\n    \"to_date\": \"2023-10-18\",\n    \"time_period\": \"1h\",\n    \"fast_period\": 12,\n    \"slow_period\": 26,\n    \"signal_period\": 9,\n    \"risk\": 1,\n    \"reward_ratio\": 3,\n    \"stop_loss_ratio\": 2,\n    \"take_profit_ratio\": 5,\n    \"start_balance\": 10000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://0.0.0.0:9878/api/backtest/macd"
+			},
+			"response": []
+		}
+	]
+}
