@@ -4,7 +4,7 @@ from pyrogram import Client
 from datetime import date
 from Database.DAL.ChatsDAL import ChatsDAL
 from Database.session import async_session
-from ML.BagOfWords import NewsSentimentClassifier
+from SentimentClassifier.SentimentClassifier import NewsSentimentClassifier
 
 sessions_dirPath = "sessions"
 

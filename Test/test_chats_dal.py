@@ -1,7 +1,7 @@
 import asyncio
 from Database.DAL.ChatsDAL import ChatsDAL
 from Database.session import async_session
-from ML.BagOfWords import NewsSentimentClassifier
+from SentimentClassifier.SentimentClassifier import NewsSentimentClassifier
 
 
 async def test_chats_dal():

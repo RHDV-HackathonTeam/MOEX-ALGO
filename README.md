@@ -266,6 +266,7 @@ class MOEXTimePeriods(Enum):
 #### Response
 ```.json
 {
+    "strategy_name": "DualSMA",
     "max_day_loss": -9.136693666848537,
     "max_day_profitability": 16.278003781584825,
     "final_balance": 10003.077771604878,
@@ -295,8 +296,61 @@ class MOEXTimePeriods(Enum):
   }
 ```
 
+### 5. BackTest MACD Signal - бэктестинг MACD
+#### Route ```POST http://0.0.0.0:9878/api/backtest/macd```
+#### Body
+```.json
+{
+    "ticker": "SBER",
+    "from_date": "2022-10-10",
+    "to_date": "2023-10-18",
+    "time_period": "1h",
+    "fast_period": 12,
+    "slow_period": 26,
+    "signal_period": 9,
+    "risk": 1,
+    "reward_ratio": 3,
+    "stop_loss_ratio": 2,
+    "take_profit_ratio": 5,
+    "start_balance": 10000
+}
+```
+#### Response
+```.json
+{
+   "strategy_name": "MACD signal",
+    "max_day_loss": -9.235735546891377,
+    "max_day_profitability": 13.64752927734932,
+    "final_balance": 10037.700630849275,
+    "start_balance": 10000,
+    "overall_profit": 0.377006308492746,
+    "total_trades": 270,
+    "profitable_trades": 61,
+    "candles": [
+    {
+            "Open": 159.42,
+            "Close": 158.1,
+            "High": 159.43,
+            "Low": 158.03,
+            "Value": 1771644862.6,
+            "Volume": 11172830.0,
+            "Begin": "2023-02-20T10:00:00",
+            "End": "2023-02-20T10:59:59",
+            "MACD 12 26 9": 0.12295354066145592,
+            "MACD signal 12 26 9": 0.13214260259363245,
+            "MACD hist 12 26 9": -0.009189061932176529,
+            "BUY": "Null",
+            "SELL": 158.1,
+            "POSITION": "closed"
+        },
+        
+        etc...
+     ]
+  }
+```
 
-### 5. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к котировкам, доступных в TA-Lib
+
+### 6. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к котировкам, доступных в TA-Lib
 #### Route ```POST http://0.0.0.0:9878/api/ticker/add_indicators```
 #### Body
 ```.json
@@ -1298,7 +1352,7 @@ class MOEXTimePeriods(Enum):
 }
 ```
 
-### 6. GetAllNews - получение всех новостей отсортированных по дате
+### 7. GetAllNews - получение всех новостей отсортированных по дате
 #### Route - ```GET http://0.0.0.0:9878/api/news/get_all_news```
 #### Response
 ```.json
@@ -1315,7 +1369,7 @@ class MOEXTimePeriods(Enum):
 ]
 ```
 
-### 7. GetNewsByTicker - получение всех новостей по тикеру отсортированных по дате
+### 8. GetNewsByTicker - получение всех новостей по тикеру отсортированных по дате
 #### Route ```POST http://0.0.0.0:9878/api/news/get_news_by_ticker```
 #### Body
 ```.json
