@@ -4,6 +4,7 @@ from pyrogram import Client
 from datetime import date
 from Database.DAL.ChatsDAL import ChatsDAL
 from Database.session import async_session
+from ML.BagOfWords import NewsSentimentClassifier
 
 sessions_dirPath = "sessions"
 
@@ -69,6 +70,7 @@ class UserAgentCore:
 
         async with async_session() as session:
             chats_dal = ChatsDAL(session)
+            classifier = NewsSentimentClassifier()
             for post in posts:
                 await chats_dal.add_chat(
                     id_post=post.id_post,
@@ -77,5 +79,9 @@ class UserAgentCore:
                     text=post.text,
                     link=post.link
                 )
+
+                if post.text is not None:
+                    rating = classifier.predict_sentiment(post.text)
+                    await chats_dal.add_rating(post.id_post, post.id_channel, rating)
 
 

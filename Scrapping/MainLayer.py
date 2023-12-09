@@ -1,4 +1,6 @@
 import asyncio
+
+from ML.BagOfWords import NewsSentimentClassifier
 from Scrapping.Parsers.RBCInvest import RBCParser
 from Scrapping.Parsers.TelegramUserAgent import UserAgentCore
 from Database.DAL.ChatsDAL import ChatsDAL
@@ -22,6 +24,7 @@ class MainLayer(object):
         try:
             tg = UserAgentCore(session_name="session")
             rbc = RBCParser()
+            classifier = NewsSentimentClassifier()
 
             async with async_session() as session:
                 chats_dal = ChatsDAL(session)
@@ -31,17 +34,20 @@ class MainLayer(object):
                     last_message_id = await chats_dal.get_last_post_id_for_channel(chat)
                     await tg.parse_chat(chat_id=chat, last_msg_id=last_message_id)
 
+
                 last_rbc_href = await web_dal.get_last_added_link(resource="rbc")
 
                 rbc_hrefs = await rbc.parse_hrefs(target_news_url=last_rbc_href)
 
-                print()
 
                 try:
                     for href in reversed(rbc_hrefs):
                         output = await rbc.parse_news(url=href)
                         await web_dal.add_web_resource("rbc", href, datetime.now(), tags=output[1], text=output[0])
                         print("added page")
+
+                        rating = classifier.predict_sentiment(output[0])
+                        await web_dal.add_rating(href, rating)
 
                 except StaleElementReferenceException:
                     output = ["No data available", []]

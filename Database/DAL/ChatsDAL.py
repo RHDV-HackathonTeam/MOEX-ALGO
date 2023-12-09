@@ -69,7 +69,10 @@ class ChatsDAL:
         return post_text
 
     async def add_rating(self, id_post, id_channel, rating):
-        existing_chat = await self.get_post_text_for_channel(id_post, id_channel)
+        result = await self.session.execute(
+            select(Chats).filter(Chats.id_post == id_post, Chats.id_channel == id_channel).limit(1)
+        )
+        existing_chat = result.scalar_one_or_none()
 
         if not existing_chat:
             return None

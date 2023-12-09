@@ -2,6 +2,9 @@ import asyncio
 from Database.DAL.WebResourcesDAL import WebResourcesDAL
 from Database.session import async_session
 from datetime import datetime
+from settings import basedir
+
+from ML.BagOfWords import NewsSentimentClassifier
 
 
 async def test_web_dal():
@@ -44,12 +47,18 @@ async def test_web_dal():
 # ''')
 #         print(await web_dal.get_last_added_link("rbc"))
 
-        # print(await web_dal.select_all_web_resources())
+        # news = await web_dal.select_all_web_resources()
+        #
+        # classifier = NewsSentimentClassifier()
+        #
+        # for new in news:
+        #     rating = classifier.predict_sentiment(new['text'])
+        #     await web_dal.add_rating(new['link'], rating)
 
-        news = await web_dal.get_resources_by_ticker_tag(ticker="SBER")
-
-        for new in news:
-            print(new.text)
+        # news = await web_dal.get_resources_by_ticker_tag(ticker="SBER")
+        #
+        # for new in news:
+        #     print(new.text)
 
 
 

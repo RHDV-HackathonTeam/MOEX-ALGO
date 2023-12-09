@@ -1,6 +1,7 @@
 import asyncio
 from Database.DAL.ChatsDAL import ChatsDAL
 from Database.session import async_session
+from ML.BagOfWords import NewsSentimentClassifier
 
 
 async def test_chats_dal():
@@ -14,7 +15,16 @@ async def test_chats_dal():
         # last_message_id = await chats_dal.get_last_post_id_for_channel("channel1")
         # print("Last message ID for channel 'channel1':", last_message_id)
 
-        print(await chats_dal.select_all())
+        news = await chats_dal.select_all()
 
-# Запуск тестовой функции
+        classifier = NewsSentimentClassifier()
+
+        for new in news:
+            if new['text'] is not None:
+                rating = classifier.predict_sentiment(new['text'])
+                await chats_dal.add_rating(new['id_post'], new['id_channel'], rating)
+
+            else:
+                pass
+
 asyncio.run(test_chats_dal())

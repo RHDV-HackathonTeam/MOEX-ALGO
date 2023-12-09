@@ -72,7 +72,9 @@ class WebResourcesDAL:
         return text
 
     async def add_rating(self, link, rating):
-        existing_resource = await self.get_text_by_link(link)
+        existing_resource = await self.session.execute(select(WebResources).filter(WebResources.link == link).limit(1))
+        existing_resource = existing_resource.scalar_one_or_none()
+        print(existing_resource)
 
         if not existing_resource:
             return None

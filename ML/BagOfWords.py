@@ -8,6 +8,7 @@ from Database.session import async_session
 import random
 from Exchanges.MOEX.AlgoPack import *
 from datetime import datetime, timedelta
+from settings import basedir
 
 
 async def get_all_web_news():
@@ -43,8 +44,8 @@ async def create_and_save_dataset():
 
 
 class NewsSentimentClassifier:
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self):
+        self.file_path = f'{basedir}/ML/news_rating_dataset.json'
         self.vectorizer = CountVectorizer()
         self.model = LogisticRegression()
         self.df = None
@@ -74,17 +75,6 @@ class NewsSentimentClassifier:
         return prediction[0]
 
 
-moex = MOEX()
-ticker_list = moex.get_tickers()
-candles_df = moex.get_candles('SBER', '2023-10-10', '2023-10-18', MOEXTimePeriods.TEN_MINUTES)
-
-
-classifier = NewsSentimentClassifier('news_rating_dataset.json')
-
-text_to_predict = "газпром упал на 10 %"
-
-predicted_sentiment = classifier.predict_sentiment(text_to_predict)
-print(predicted_sentiment)
 
 
 
