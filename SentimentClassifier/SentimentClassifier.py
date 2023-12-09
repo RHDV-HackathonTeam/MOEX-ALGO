@@ -38,9 +38,6 @@ async def create_and_save_dataset():
     combined_news.extend(news)
     combined_news.extend(chats_news)
 
-    # for item in combined_news:
-    #     item['rating'] = random.randint(0, 100)
-
     df = pd.DataFrame(combined_news)
     df.to_json('news_rating_dataset.json', orient='records', indent=4)
 
