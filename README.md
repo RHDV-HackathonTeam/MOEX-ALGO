@@ -259,7 +259,8 @@ class MOEXTimePeriods(Enum):
     "risk": 1,
     "reward_ratio": 3,
     "stop_loss_ratio": 2,
-    "take_profit_ratio": 5
+    "take_profit_ratio": 5,
+    "start_balance": 10000
 }
 ```
 #### Response
