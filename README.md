@@ -245,7 +245,57 @@ class MOEXTimePeriods(Enum):
 }
 ```
 
-### 4. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к котировкам, доступных в TA-Lib
+### 4. BackTest DualSMA - бэктестинг DualSMA
+#### Route ```POST http://0.0.0.0:9878/api/backtest/dualsma```
+#### Body
+```.json
+{
+    "ticker": "SBER",
+    "from_date": "2022-10-10",
+    "to_date": "2023-10-18",
+    "time_period": "1h",
+    "fast_period": 10,
+    "long_period": 50,
+    "risk": 1,
+    "reward_ratio": 3,
+    "stop_loss_ratio": 2,
+    "take_profit_ratio": 5
+}
+```
+#### Response
+```.json
+{
+    "max_day_loss": -9.136693666848537,
+    "max_day_profitability": 16.278003781584825,
+    "final_balance": 10003.077771604878,
+    "start_balance": 10000,
+    "overall_profit": 0.03077771604877853,
+    "total_trades": 109,
+    "profitable_trades": 26,
+    "candles": [
+    {
+            "Open": 135.7,
+            "Close": 135.7,
+            "High": 135.7,
+            "Low": 135.7,
+            "Value": 5829672.0,
+            "Volume": 42960.0,
+            "Begin": "2022-11-23T09:00:00",
+            "End": "2022-11-23T09:59:59",
+            "SMA 10": 135.48799999999974,
+            "SMA 50": 135.4202,
+            "BUY": 135.7,
+            "SELL": "Null",
+            "POSITION": "long"
+        },
+        
+        etc...
+     ]
+  }
+```
+
+
+### 5. AddIndicator - добавляет в датафрейм любые тех индикаторы и patter-recognition к котировкам, доступных в TA-Lib
 #### Route ```POST http://0.0.0.0:9878/api/ticker/add_indicators```
 #### Body
 ```.json
@@ -1247,7 +1297,7 @@ class MOEXTimePeriods(Enum):
 }
 ```
 
-### 5. GetAllNews - получение всех новостей отсортированных по дате
+### 6. GetAllNews - получение всех новостей отсортированных по дате
 #### Route - ```GET http://0.0.0.0:9878/api/news/get_all_news```
 #### Response
 ```.json
@@ -1264,7 +1314,7 @@ class MOEXTimePeriods(Enum):
 ]
 ```
 
-### 6. GetNewsByTicker - получение всех новостей по тикеру отсортированных по дате
+### 7. GetNewsByTicker - получение всех новостей по тикеру отсортированных по дате
 #### Route ```POST http://0.0.0.0:9878/api/news/get_news_by_ticker```
 #### Body
 ```.json
@@ -1289,7 +1339,7 @@ class MOEXTimePeriods(Enum):
 ```
 
 
-## 7. Настройка pre-committer
+## Настройка pre-committer
 ```.sh
 $ pre-commit migrate-config
 Configuration has been migrated.

@@ -52,8 +52,8 @@ async def add_indicators(indicators_data: dict):
             'value': 'Value',
             'volume': 'Volume',
             'begin': 'Begin',
-            'end': 'End'}
-        )
+            'end': 'End'
+        })
 
         selected_indicators = indicators_data.get('selected_indicators')
 
@@ -617,6 +617,7 @@ async def add_indicators(indicators_data: dict):
                 df = pr.CDLXSIDEGAP3METHODS(df=df)
 
         df = df.where(pd.notnull(df), "Null")
+
         candles_data = df.to_dict(orient="records")
         response_data = {
             "candles": candles_data
