@@ -68,10 +68,67 @@ export const Graph = props => {
 				  close: item.Close
 				};
 			  });
+
+			  function calculateSMA(data, period) {
+				const smaValues = [];
+				for (let i = period - 1; i < data.length; i++) {
+				  let sum = 0;
+				  for (let j = i; j > i - period; j--) {
+					sum += data[j].close;
+				  }
+				  smaValues.push({ time: data[i].time, value: sum / period });
+				}
+				return smaValues;
+			  }
+
+			  function calculateRSI(data, period) {
+				const rsiValues = [];
+				let gainSum = 0;
+				let lossSum = 0;
+			  
+				for (let i = 1; i < data.length; i++) {
+				  const diff = data[i].close - data[i - 1].close;
+				  if (diff > 0) {
+					gainSum += diff;
+				  } else {
+					lossSum -= diff;
+				  }
+			  
+				  if (i >= period) {
+					const avgGain = gainSum / period;
+					const avgLoss = lossSum / period;
+					const rs = avgGain / avgLoss;
+					const rsi = 100 - (100 / (1 + rs));
+					rsiValues.push({ time: data[i].time, value: rsi });
+				  }
+				}
+				return rsiValues;
+			  }
 			
+			const sma3 = calculateSMA(transformedData, 3);
+			const rsi14 = calculateRSI(transformedData, 14);
 			
+			const strategy = [];
+			for (let i = 1; i < rsi14.length; i++) {
+				// if (rsi14[i].value > 40 && data[i].close < sma3[i].value) {
+				if (rsi14[i].value > 50) {
+					strategy.push({ time: rsi14[i].time, position: 'aboveBar', color: 'red', shape: 'arrowDown', text: 'SELL' });
+				// } else if (rsi14[i].value < 30 && data[i].close > sma3[i].value) {
+				} else if (rsi14[i].value < 35) {
+					strategy.push({ time: rsi14[i].time, position: 'belowBar', color: 'green', shape: 'arrowUp', text: 'BUY' });
+				}
+			}
+			console.log("sma", sma3)
+			console.log("rsi", rsi14)
+			console.log("strategy", strategy)
 			candleSeries.setData(transformedData);
-			// candleSeries.setMarkers(data[2]);
+			candleSeries.setMarkers(strategy);
+			
+			const lineSeries1 = chart.addLineSeries({lineColor: "rgba(0,198,0, 1)",lineWidth: 2,});
+			lineSeries1.setData(sma3)
+
+			const lineSeries2 = chart.addAreaSeries({lineColor: "rgba(255,0,0, 1)",lineWidth: 2,});
+			lineSeries2.setData(rsi14)
 
 			window.addEventListener('resize', handleResize);
 

@@ -60,7 +60,7 @@ const StrategyInfo = (props) => {
         <Grid item xs={4}>
           <Card>
             <CardContent style={{ height: 400 }}>
-            <NewsFeed />
+            <NewsFeed {...props}/>
             </CardContent>
           </Card>
         </Grid>

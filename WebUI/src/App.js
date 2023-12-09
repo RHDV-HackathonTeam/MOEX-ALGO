@@ -9,8 +9,7 @@ import axios from 'axios';
 import "./components/graphstyles.css"
 
 const strategies_list = [
-  { title: 'Strategy 1', from: '2022/10/27', to: '2022/11/27', ticker: 'GAZP', profitability: '11', riskreward: '1/3', riskondeal: '2', maxloss: '122', maxdayloss: '278' },
-  { title: 'Strategy 2', from: '2022/11/27', to: '2022/12/27', ticker: 'GAZP', profitability: '22', riskreward: '1/3', riskondeal: '2', maxloss: '222', maxdayloss: '278' },
+  { title: 'Strategy SMA RSI 1', from: '2022/01/27', to: '2023/12/27', ticker: 'ALRS', profitability: '11', riskreward: '1/3', riskondeal: '2', maxloss: '122', maxdayloss: '278' },
 ];
 
 function App() {
@@ -57,6 +56,7 @@ function App() {
         try {
           const response = await axios.post('http://localhost:9878/api/ticker/get_candles', rdata);
           setData(response.data.candles);
+          console.log(response.data.candles);
           setLoading(false); // Set loading to false when data arrives
         } catch (error) {
           console.error('Error fetching data:', error);
