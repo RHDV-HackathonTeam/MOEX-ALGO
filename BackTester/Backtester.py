@@ -49,6 +49,7 @@ class StrategyTester:
         self.end_time = end_time
         self.bar_interval = bar_interval
         self.df = None
+        self.DEFAULT_RATING = 6
 
     def DualSMAStrategy(self, fast_period, long_period):
         self.df = self.moex.get_candles(self.ticker, self.start_time, self.end_time, self.bar_interval)
@@ -97,6 +98,56 @@ class StrategyTester:
         self.df["BUY"] = buy_signal_price
         self.df["SELL"] = sell_signal_price
 
+    def MACDStrategy(self, fastperiod, slowperiod, signalperiod):
+        self.df = self.moex.get_candles(self.ticker, self.start_time, self.end_time, self.bar_interval)
+        print(self.df)
+        self.df = self.df.rename(columns={
+            'open': 'Open',
+            'close': 'Close',
+            'high': 'High',
+            'low': 'Low',
+            'value': 'Value',
+            'volume': 'Volume',
+            'begin': 'Begin',
+            'end': 'End'
+        })
+
+        self.df = mi.MACD(df=self.df,
+                            fastperiod=fastperiod,
+                            slowperiod=slowperiod,
+                            signalperiod=signalperiod
+                          )
+
+        buy_signal_price = list()
+        sell_signal_price = list()
+        flag = 0
+
+        for i in range(len(self.df)):
+            if self.df[f'MACD {fastperiod} {slowperiod} {signalperiod}'][i] > self.df[f"MACD signal {fastperiod} {slowperiod} {signalperiod}"][i]:
+                if flag != 1:
+                    buy_signal_price.append(self.df["Close"][i])
+                    sell_signal_price.append(np.nan)
+                    flag = 1
+                else:
+                    buy_signal_price.append(np.nan)
+                    sell_signal_price.append(np.nan)
+
+            elif self.df[f'MACD {fastperiod} {slowperiod} {signalperiod}'][i] < self.df[f"MACD signal {fastperiod} {slowperiod} {signalperiod}"][i]:
+                if flag != -1:
+                    sell_signal_price.append(self.df["Close"][i])
+                    buy_signal_price.append(np.nan)
+                    flag = -1
+                else:
+                    buy_signal_price.append(np.nan)
+                    sell_signal_price.append(np.nan)
+
+            else:
+                buy_signal_price.append(np.nan)
+                sell_signal_price.append(np.nan)
+
+        self.df["BUY"] = buy_signal_price
+        self.df["SELL"] = sell_signal_price
+
     async def get_weighted_rating(self, candle_date):
 
         async with async_session() as session:
@@ -122,7 +173,7 @@ class StrategyTester:
 
             return total_weighted_rating / total_weight if total_weight > 0 else DEFAULT_RATING
 
-    async def backtest_with_news(self, risk, reward_ratio, stop_loss_ratio, take_profit_ratio):
+    def backtest_with_news(self, risk, reward_ratio, stop_loss_ratio, take_profit_ratio):
 
         initial_balance = self.balance
         max_day_profitability = 0
@@ -136,7 +187,7 @@ class StrategyTester:
             if not np.isnan(self.df['BUY'][i]):
                 if position is None:
                     # weighted_rating = self.get_weighted_rating(news, self.df['Begin'].iloc[i])
-                    weighted_rating = 6
+                    weighted_rating = self.DEFAULT_RATING
                     if weighted_rating > 5:
                         position = 'long'
                         buy_price = self.df['BUY'][i]
@@ -264,7 +315,6 @@ class StrategyTester:
                         self.balance -= trade_size
                         position_size = trade_size / buy_price
 
-                        # Рассчитываем стоп-лосс и тейк-профит уровни
                         stop_loss = buy_price * (1 - stop_loss_ratio / 100)
                         take_profit = buy_price * (1 + take_profit_ratio / 100)
 
@@ -278,7 +328,6 @@ class StrategyTester:
                         trade_profit = (sell_price - buy_price) / buy_price * 100
                         self.balance += position_size * sell_price
 
-                        # Выход из позиции при достижении стоп-лосса или тейк-профита
                         if sell_price <= stop_loss or sell_price >= take_profit:
                             position = None
                             buy_price = None
@@ -321,8 +370,8 @@ if __name__ == "__main__":
         bar_interval=MOEXTimePeriods.TEN_MINUTES
     )
 
-    s.DualSMAStrategy(10, 50)
-
+    # s.DualSMAStrategy(10, 50)
+    s.MACDStrategy(fastperiod=12, slowperiod=26, signalperiod=9)
     buy_indices = np.where(s.df["BUY"].notnull())[0]
     sell_indices = np.where(s.df["SELL"].notnull())[0]
     print("Buy signal\n",buy_indices)
@@ -330,4 +379,4 @@ if __name__ == "__main__":
 
     # s.backtest()
     # s.balance = 10000
-    # s.risk_reward_backtest(risk=1, reward_ratio=3, stop_loss_ratio=2, take_profit_ratio=5)
+    s.risk_reward_backtest(risk=1, reward_ratio=3, stop_loss_ratio=2, take_profit_ratio=5)
